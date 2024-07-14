@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProductState } from '../context/Context';
-
+import { Link, NavLink } from 'react-router-dom';
 
 function Products() {
   
@@ -8,6 +8,10 @@ function Products() {
   
   return (
     <div>
+      <Link activeStyle={{  backgroundColor: '#fdc936'  }} to={'/products'}>Products</Link> | 
+      <Link activeStyle={{  backgroundColor: '#fdc936'  }} to={'/users'}> Users</Link> | 
+       <NavLink activeStyle={{  backgroundColor: '#fdc936'  }} to={'/'}>Home</NavLink>
+      < br />
        <table>
         <thead>
           <tr>
