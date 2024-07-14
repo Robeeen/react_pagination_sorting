@@ -1,16 +1,19 @@
 import React from 'react';
-import { useAPI } from '../context/Context';
+import { APIState } from '../context/Context';
 
 function Users() {
 
-  const {users}  = useAPI();
-  console.log(users);
+  const users  = APIState();
+  //console.log(users);
   return (
     <div>
       <ul>
-        {users.map(user => 
-          <li key={user.id}>{user.firstName}</li>
-        )}
+        {users.users.map((user, index) => (
+          <li key={index}>{user.age} | {user.firstName} | {user.email} |</li>
+      )) }
+        {/* { JSON.stringify(users.users.total)} <br />
+        { JSON.stringify(users.users.limit)} <br /> */}
+        {/* { users.users[0].email} */}
       </ul>
     </div>
   )

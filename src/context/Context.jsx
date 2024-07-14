@@ -6,19 +6,16 @@ const APIContext = createContext();
 function Context({children}) {
 
   const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const { data } = await axios.get(
-        `https://dummyjson.com/users`
-      );
-     // console.log(data);
-      setUsers(data);
-    }
-    fetchData();
-  }, []);
-
-
+  
+    useEffect(() => {
+      axios.get('https://dummyjson.com/users')
+        .then(response => {
+          setUsers(response.data.users);
+        })
+        .catch(error => {
+          console.error("There was an error fetching the users!", error);
+        });
+    }, []);
 
   return (
     <APIContext.Provider value={{ users }}>
@@ -29,10 +26,6 @@ function Context({children}) {
 
 export default Context;
 
-export function useAPI() {
-  const newCont = useContext(APIContext);
-  if (newCont === undefined) {
-    throw new Error("Context must be used within a Provider");
-  }
-  return newCont;  
+export const APIState = () => {
+  return useContext(APIContext);
 };
