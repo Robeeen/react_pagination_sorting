@@ -4,7 +4,8 @@ import Users from './routes/Users.jsx';
 import App from './routes/App.jsx';
 import Products from './routes/Products.jsx';
 import ErrorPage from './error-page.jsx';
-import './index.css'
+import './index.css';
+import './App.css'
 import {
   createBrowserRouter,
   RouterProvider,

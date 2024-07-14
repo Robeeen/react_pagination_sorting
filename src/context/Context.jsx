@@ -1,12 +1,14 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from "axios";
 
-const APIContext = createContext();
+const UserContext = createContext();
+const ProductContext = createContext();
 
 function Context({children}) {
 
   const [users, setUsers] = useState([]);
-  
+  const [products, setProducts] = useState([]);
+
     useEffect(() => {
       axios.get('https://dummyjson.com/users')
         .then(response => {
@@ -17,15 +19,35 @@ function Context({children}) {
         });
     }, []);
 
+    useEffect(() => {
+      axios.get('https://dummyjson.com/products')
+      .then(response => {
+        setProducts(response.data.products);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the users!", error);
+      });
+    }, []);
+
   return (
-    <APIContext.Provider value={{ users }}>
+    
+    <UserContext.Provider value={{ users }}>
+       <ProductContext.Provider value={{ products}}>
         {children}
-    </APIContext.Provider>
+    </ProductContext.Provider>
+    </UserContext.Provider>
+
+    
+    
   )
 }
 
 export default Context;
 
-export const APIState = () => {
-  return useContext(APIContext);
+export const UserState = () => {
+  return useContext(UserContext);
+};
+
+export const ProductState = () => {
+  return useContext(ProductContext);
 };
