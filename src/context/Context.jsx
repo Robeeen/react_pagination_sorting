@@ -1,24 +1,38 @@
-import React, { createContext, useReducer } from 'react'
-import { prodReducer } from './Reducer'
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import axios from "axios";
 
-const DummyJson = createContext();
+const APIContext = createContext();
 
 function Context({children}) {
 
-    const myData = "hello"
+  const [users, setUsers] = useState([]);
 
-
-  const [ state, dispatch] = useReducer(prodReducer, {
-    importData : myData
-  });
+  useEffect(() => {
+    async function fetchData() {
+      const { data } = await axios.get(
+        `https://dummyjson.com/users`
+      );
+     // console.log(data);
+      setUsers(data);
+    }
+    fetchData();
+  }, []);
 
 
 
   return (
-    <DummyJson.Provider value={{ state, dispatch }}>
+    <APIContext.Provider value={{ users }}>
         {children}
-    </DummyJson.Provider>
+    </APIContext.Provider>
   )
 }
 
-export default Context
+export default Context;
+
+export function useAPI() {
+  const newCont = useContext(APIContext);
+  if (newCont === undefined) {
+    throw new Error("Context must be used within a Provider");
+  }
+  return newCont;  
+};
