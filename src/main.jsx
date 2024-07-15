@@ -11,6 +11,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Context from './context/Context.jsx';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const router = createBrowserRouter([
   {
