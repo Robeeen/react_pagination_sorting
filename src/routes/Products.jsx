@@ -15,7 +15,8 @@ function Products() {
   const [ page, setPage ] = useState(1); // First page = 1 
   const [ pageCount, setPageCount ] = useState(0);
 
-//console.log(pageCount);
+  console.log(pageData);
+  
   //Create Pagination- Next Button
   const handleNext = () => {
     if( page === pageCount ) return page;
@@ -28,9 +29,6 @@ function Products() {
     setPage(page -1);
   }
 
-  useEffect(() =>{
-    products
-  }, [page]);
 
   useEffect(() => {
       const pageDataCount = Math.ceil(products.products.length / 5);
@@ -40,7 +38,7 @@ function Products() {
         const LIMIT = 5;
         const SKIP = LIMIT * page;
         const dataSkip = products.products.slice(page === 1 ? 0 : SKIP - LIMIT, SKIP);
-        setPageData(dataSkip);
+        setPageData(dataSkip);        
       }
   }, [products]);
 
@@ -61,7 +59,7 @@ function Products() {
         <option value={30}>30</option>
       </select>
     
-       <table  striped bordered hover>
+       <table className="striped bordered hover">
         <thead>
           <tr>
             <th>Product Title</th>
@@ -95,7 +93,7 @@ function Products() {
 
 { /* --------Pagination --------------https://www.youtube.com/watch?v=qhtuXPDzfXA */ }
 
-        <div className='d-flex justify-content-center'>
+        <div className='d-flex justify-content-center mt-5'>
             <Pagination>          
                   <Pagination.Prev onClick={handlePrevious}  disabled={page === 1}/>          
 

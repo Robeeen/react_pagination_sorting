@@ -28,7 +28,7 @@ function Context({children}) {
 
     useEffect(() => {
      getProductData()
-    }, []);
+    }, [products]);
 
 
 
