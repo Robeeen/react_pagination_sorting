@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ProductState } from '../context/Context';
 import { Link, NavLink } from 'react-router-dom';
 import Spinner from 'react-Bootstrap/Spinner';
 import Pagination from 'react-bootstrap/Pagination';
+
+
 
 function Products() {
   
@@ -13,6 +15,7 @@ function Products() {
   const [ page, setPage ] = useState(1); // First page = 1 
   const [ pageCount, setPageCount ] = useState(0);
 
+//console.log(pageCount);
   //Create Pagination- Next Button
   const handleNext = () => {
     if( page === pageCount ) return page;
@@ -25,8 +28,21 @@ function Products() {
     setPage(page -1);
   }
 
-  
+  useEffect(() =>{
+    products
+  }, [page]);
 
+  useEffect(() => {
+      const pageDataCount = Math.ceil(products.products.length / 5);
+      setPageCount(pageDataCount);
+
+      if(page){
+        const LIMIT = 5;
+        const SKIP = LIMIT * page;
+        const dataSkip = products.products.slice(page === 1 ? 0 : SKIP - LIMIT, SKIP);
+        setPageData(dataSkip);
+      }
+  }, [products]);
 
 
   return (
@@ -60,7 +76,7 @@ function Products() {
         </thead>
         <tbody>
 
-          { products.products.length > 0 ? products.products.map((user) => (
+          { pageData.length > 0 ? pageData.map((user) => (
             <tr key={user.id}>
               <td>{user.title}</td>
               <td>{user.category}</td>
@@ -71,21 +87,23 @@ function Products() {
               <td>{user.stock}</td>
               <td>{user.availabilityStatus}</td>
             </tr>
-          )) : <div className='d-flex justify-content-center mt-4'>
-                 Loading... <Spinner animation="border" variant='danger' />
-              </div>}
+          )) : <tr className='d-flex justify-content-center mt-4'>
+                <td>Loading... <Spinner animation="border" variant='danger' /></td> 
+              </tr>}
         </tbody>
       </table>
-      { /* --------Pagination --------------https://www.youtube.com/watch?v=qhtuXPDzfXA */ }
-    <div className='d-flex justify-content-center'>
-        <Pagination>          
-              <Pagination.Prev onClick={handlePrevious}/>          
 
-              <Pagination.Item>{10}</Pagination.Item>
-            
-              <Pagination.Next  onClick={handleNext}/>
-        </Pagination>
-    </div>
+{ /* --------Pagination --------------https://www.youtube.com/watch?v=qhtuXPDzfXA */ }
+
+        <div className='d-flex justify-content-center'>
+            <Pagination>          
+                  <Pagination.Prev onClick={handlePrevious}  disabled={page === 1}/>          
+
+                  {/* <Pagination.Item>{10}</Pagination.Item> */}
+                
+                  <Pagination.Next  onClick={handleNext} disabled={page === pageCount}/>
+            </Pagination>
+        </div>
     </div>
   )
 
