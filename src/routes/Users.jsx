@@ -1,18 +1,20 @@
 import React from 'react';
 import { UserState } from '../context/Context';
 import { Link, NavLink } from 'react-router-dom';
+import Spinner from 'react-Bootstrap/Spinner';
+
 
 function Users() {
 
   const users  = UserState();
   
   return (
-    <div>
+    <div className='container'>
       <Link activeStyle={{  backgroundColor: '#fdc936'  }} to={'/products'}>Products</Link> | 
       <Link activeStyle={{  backgroundColor: '#fdc936'  }} to={'/users'}> Users</Link> | 
        <NavLink activeStyle={{  backgroundColor: '#fdc936'  }} to={'/'}>Home</NavLink>
       < br />
-       <table>
+       <table className='striped bordered hover'>
         <thead>
           <tr>
             <th>Name</th>
@@ -26,10 +28,10 @@ function Users() {
           </tr>
         </thead>
         <tbody>
-          {users.users.map((user) => (
+          {users.users.length > 0 ? users.users.map((user) => (
             <tr key={user.id}>
-              <td>{`${user.firstName} ${user.lastName}`}</td>
-              <td>{`${user.maidenName}`}</td>
+              <td>{user.firstName} {user.lastName}</td>
+              <td>{user.maidenName}</td>
               <td>{user.age}</td>
               <td>{user.gender}</td>
               <td>{user.username}</td>
@@ -37,7 +39,10 @@ function Users() {
               <td>{user.eyeColor}</td>
               <td>{user.email}</td>
             </tr>
-          ))}
+          )): <div className='d-flex justify-content-center mt-4'>
+                Loading... <Spinner animation="border" variant='danger' />
+              </div>
+          }
         </tbody>
       </table>
     </div>

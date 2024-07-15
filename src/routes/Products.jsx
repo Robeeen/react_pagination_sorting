@@ -2,17 +2,35 @@ import React, { useState } from 'react';
 import { ProductState } from '../context/Context';
 import { Link, NavLink } from 'react-router-dom';
 import Spinner from 'react-Bootstrap/Spinner';
+import Pagination from 'react-bootstrap/Pagination';
 
 function Products() {
   
   const products  = ProductState();
 
-  const [ currentPage, setCurrentPage ] = useState(1)
-  const [ productPerPage ] = useState(5);
+  //Create Pagination section state variable
+  const [ pageData, setPageData ] = useState([]);
+  const [ page, setPage ] = useState(1); // First page = 1 
+  const [ pageCount, setPageCount ] = useState(0);
+
+  //Create Pagination- Next Button
+  const handleNext = () => {
+    if( page === pageCount ) return page;
+    setPage(page + 1);
+  }
+
+  //Create Pagination - Previous button
+  const handlePrevious = () => {
+    if( page === 1) return page;
+    setPage(page -1);
+  }
+
+  
+
 
 
   return (
-    <div>
+    <div className='container'>
       <Link to={'/products'}>Products</Link> | 
       <Link to={'/users'}> Users</Link> | 
        <NavLink to={'/'}>Home</NavLink>
@@ -27,7 +45,7 @@ function Products() {
         <option value={30}>30</option>
       </select>
     
-       <table>
+       <table  striped bordered hover>
         <thead>
           <tr>
             <th>Product Title</th>
@@ -54,10 +72,20 @@ function Products() {
               <td>{user.availabilityStatus}</td>
             </tr>
           )) : <div className='d-flex justify-content-center mt-4'>
-          Loading... <Spinner animation="border" variant='danger' />
-      </div>}
+                 Loading... <Spinner animation="border" variant='danger' />
+              </div>}
         </tbody>
       </table>
+      { /* --------Pagination --------------https://www.youtube.com/watch?v=qhtuXPDzfXA */ }
+    <div className='d-flex justify-content-center'>
+        <Pagination>          
+              <Pagination.Prev onClick={handlePrevious}/>          
+
+              <Pagination.Item>{10}</Pagination.Item>
+            
+              <Pagination.Next  onClick={handleNext}/>
+        </Pagination>
+    </div>
     </div>
   )
 
