@@ -4,8 +4,6 @@ import { Link, NavLink } from 'react-router-dom';
 import Spinner from 'react-Bootstrap/Spinner';
 import Pagination from 'react-bootstrap/Pagination';
 
-
-
 function Products() {
   
   const products  = ProductState();
@@ -15,7 +13,11 @@ function Products() {
   const [ page, setPage ] = useState(1); // First page = 1 
   const [ pageCount, setPageCount ] = useState(0);
 
-  console.log(pageData);
+  //Create a Drop Down Section
+  const handleUserPerPageChange = (e) =>{
+      setPageCount(Number(e.target.value));
+      setPage(1);
+  }
   
   //Create Pagination- Next Button
   const handleNext = () => {
@@ -29,7 +31,6 @@ function Products() {
     setPage(page -1);
   }
 
-
   useEffect(() => {
       const pageDataCount = Math.ceil(products.products.length / 5);
       setPageCount(pageDataCount);
@@ -42,7 +43,6 @@ function Products() {
       }
   }, [products]);
 
-
   return (
     <div className='container'>
       <Link to={'/products'}>Products</Link> | 
@@ -52,7 +52,7 @@ function Products() {
       {/** Select Number of page to be shown in Table */}
 
       <label htmlFor="usersPerPage">Product per page: </label>
-      <select id="usersPerPage">
+      <select id="usersPerPage" value={pageCount} onChange={handleUserPerPageChange}>
         <option value={5}>5</option>
         <option value={10}>10</option>
         <option value={20}>20</option>
