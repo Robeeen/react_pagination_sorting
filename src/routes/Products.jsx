@@ -16,7 +16,7 @@ function Products() {
   //Create a Drop Down Section
   const handleUserPerPageChange = (e) =>{
       setPageCount(Number(e.target.value));
-      setPage(1);
+      setPage(setPageCount);
   }
   
   //Create Pagination- Next Button
@@ -32,11 +32,11 @@ function Products() {
   }
 
   useEffect(() => {
-      const pageDataCount = Math.ceil(products.products.length / 5);
+      const pageDataCount = Math.ceil(products.products.length / 10);
       setPageCount(pageDataCount);
 
       if(page){
-        const LIMIT = 5;
+        const LIMIT = 10;
         const SKIP = LIMIT * page;
         const dataSkip = products.products.slice(page === 1 ? 0 : SKIP - LIMIT, SKIP);
         setPageData(dataSkip);        
@@ -97,7 +97,16 @@ function Products() {
             <Pagination>          
                   <Pagination.Prev onClick={handlePrevious}  disabled={page === 1}/>          
 
-                  {/* <Pagination.Item>{10}</Pagination.Item> */}
+                  {
+                    Array(pageCount).fill(null).map((items, index) => {
+                      return (
+                        <>
+                          <Pagination.Item active = {page === index + 1 ? true : false}>{index + 1}</Pagination.Item>
+                        </>
+                      )
+                    })
+                    
+                    }
                 
                   <Pagination.Next  onClick={handleNext} disabled={page === pageCount}/>
             </Pagination>
