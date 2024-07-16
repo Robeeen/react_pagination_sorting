@@ -101,7 +101,10 @@ function Products() {
                     Array(pageCount).fill(null).map((items, index) => {
                       return (
                         <>
-                          <Pagination.Item active = {page === index + 1 ? true : false}>{index + 1}</Pagination.Item>
+                          <Pagination.Item active = {page === index + 1 ? true : false}
+                          onClick={() => {setPage(index + 1)}}>
+                             {index + 1}
+                            </Pagination.Item>
                         </>
                       )
                     })
